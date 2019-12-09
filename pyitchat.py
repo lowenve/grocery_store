@@ -1,8 +1,8 @@
 # coding=utf8
 import itchat
 
-# 开启自动回复
-itchat.run()
+# 弹出扫码登录界面,参数这样设置的好处是短时间内退出程序，再次登录可以不用扫码
+itchat.auto_login(hotReload=True)
 
 
 # 当接收到的消息是Text，即文字消息
@@ -36,5 +36,5 @@ def text_reply(msg):
     return replay
 
 
-# 弹出扫码登录界面,参数这样设置的好处是短时间内退出程序，再次登录可以不用扫码
-itchat.auto_login(hotReload=True)
+# 开启自动回复
+itchat.run()

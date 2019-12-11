@@ -8,12 +8,12 @@ import psycopg2
 
 ## 连接到一个给定的数据库
 conn_pg = psycopg2.connect(database="cnki_009_govin_pro_ods", user="postgres", password="fj5722902", host="10.170.128.121", port="5432")
-conn_kb = KBase.connect(host = "192.168.106.49", port = 4567, user = "DBOWN", passwd = "")
-tpiclient = KBase.TPIClient(conn_kb)
+# conn_kb = KBase.connect(host = "192.168.106.49", port = 4567, user = "DBOWN", passwd = "")
+# tpiclient = KBase.TPIClient(conn_kb)
 cur_pg = conn_pg.cursor()
-cur_kb = conn_kb.cursor()
+# cur_kb = conn_kb.cursor()
 
-print('connection handle is:', conn_kb.hcon)  # connection handle is: 1025
+# print('connection handle is:', conn_kb.hcon)  # connection handle is: 1025
 
 
 cur_pg.execute("select * from dfjx7919 where 附件名称 = 'fff'")
@@ -26,18 +26,18 @@ for row in row_pg:
     # cur_kb.execute("update dfjx7919 set URL = '' where 文件名 = %s", (row[0],))
     xml = str(row[37])
     # print(xml)
-    xml = xml.replace("<URL>", "<URLL>")
+    xml = xml.replace("URL", "URLL")
     # print(xml)
-    ret = tpiclient.openRecordSet("select * from dfjx7919 where 文件名 = %s", (row[0],))
-    tpiclient.edit()
-    ret = tpiclient.setFieldValueByName('XML字段', xml)
-    tpiclient.update()
-    # sql_kb = """update dfjx7919 set XML字段 = '''{0}''' where 文件名 = {1}""".format(xml, row[0])
+    
+    sql_kb = "update dfjx7919 set xml = r'%s' where title = '%s'" %(xml, row[0])
+    print(sql_kb)
+    cur_pg.execute(sql_kb)
+    conn_pg.commit()
     # cur_kb.execute("""update dfjx7919 set XML字段 = '{0}' where 文件名 = {1}""", (xml, row[0],))
     break
 
-cur_kb.close()
-conn_kb.close()
+# cur_kb.close()
+# conn_kb.close()
 
 
 

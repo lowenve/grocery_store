@@ -191,16 +191,19 @@ def parse_raw_mail_data(raw_lines, charset='utf8'):
     return Parser().parsestr(text=msg_content)
 
 # 将字节数据通过相应的编码转换成字符串类型的数据
-def decode_byte(bstr, charset='utf8'):
+def decode_byte(bstr, charset='utf-8'):
     return bstr.decode(charset)
 
 
 if __name__ == '__main__':
-    useraccount = input('Mail User Account:')
-    password = getpass.getpass(prompt='Your Auth Code:')
-    limits = int(input('How many mails you want to receive:'))
-    debug_level = int(input('the debug level, default is on which is number 1'))
-
+    # useraccount = input('Mail User Account:')
+    # password = getpass.getpass(prompt='Your Auth Code:')
+    # limits = int(input('How many mails you want to receive:'))
+    # debug_level = int(input('the debug level, default is on which is number 1:'))
+    useraccount = 'loongtext@163.com'
+    password = 'fj5722902'
+    limits = 2
+    debug_level = 0
     # 获取到limits限制下的所有的邮件
     mails = get_parsed_msg(useraccount=useraccount, password=password, limits=limits, debuglevel=debug_level)
     # 进入循环操作体

@@ -2,13 +2,15 @@
 """
 把PostgreSQl中的字段值修改到KBase里面；
 """
+
+
 from CNKI import KBase
 import psycopg2
 
 
-## 连接到一个给定的数据库
+# 连接到一个给定的数据库
 conn_pg = psycopg2.connect(database="cnki_009_govin_pro_ods", user="postgres", password="fj5722902", host="10.170.128.121", port="5432")
-# conn_kb = KBase.connect(host = "192.168.106.49", port = 4567, user = "DBOWN", passwd = "")
+conn_kb = KBase.connect(host="192.168.106.49", port=4567, user="DBOWN", passwd="")
 # tpiclient = KBase.TPIClient(conn_kb)
 cur_pg = conn_pg.cursor()
 # cur_kb = conn_kb.cursor()
@@ -28,7 +30,6 @@ for row in row_pg:
     # print(xml)
     xml = xml.replace("URL", "URLL")
     # print(xml)
-    
     sql_kb = "update dfjx7919 set xml = r'%s' where title = '%s'" %(xml, row[0])
     print(sql_kb)
     cur_pg.execute(sql_kb)
@@ -40,9 +41,8 @@ for row in row_pg:
 # conn_kb.close()
 
 
-
-## 关闭游标
+# 关闭游标
 cur_pg.close()
 
-## 关闭数据库连接
+# 关闭数据库连接
 conn_pg.close()

@@ -1,3 +1,7 @@
 {
-    "python.pythonPath": "/Users/lowenve/anaconda3/envs/003_xinfang/bin/python"
+    "python.pythonPath": "/Users/lowenve/anaconda3/envs/003_xinfang/bin/python",
+    "python.linting.flake8Enabled": true,
+    "python.linting.flake8Args": [
+        "--max-line-length=149"
+    ],
 }

@@ -196,14 +196,11 @@ def decode_byte(bstr, charset='utf-8'):
 
 
 if __name__ == '__main__':
-    # useraccount = input('Mail User Account:')
-    # password = getpass.getpass(prompt='Your Auth Code:')
-    # limits = int(input('How many mails you want to receive:'))
-    # debug_level = int(input('the debug level, default is on which is number 1:'))
-    useraccount = 'loongtext@163.com'
-    password = 'fj5722902'
-    limits = 2
-    debug_level = 0
+    useraccount = input('Mail User Account:')
+    password = getpass.getpass(prompt='Your Auth Code:')
+    limits = int(input('How many mails you want to receive:'))
+    debug_level = int(input('the debug level, default is on which is number 1:'))
+
     # 获取到limits限制下的所有的邮件
     mails = get_parsed_msg(useraccount=useraccount, password=password, limits=limits, debuglevel=debug_level)
     # 进入循环操作体

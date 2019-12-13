@@ -81,6 +81,7 @@ def get_parsed_msg(useraccount, password, limits=1, debuglevel=1):
         resp_status, mail_lines, mail_octets = server.retr(index)
         mailinfo.status = resp_status
         content_charset = get_rawcontent_charset(mail_lines)
+        print(mail_lines, "=======")
         msg = parse_raw_mail_data(mail_lines, charset=content_charset)
         mailinfo.data = msg
         # print("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"+str(type(msg)))
@@ -184,7 +185,9 @@ def get_rawcontent_charset(rawcontent):
 
 # 返回被email.Parser模块解码后的邮件数据信息
 def parse_raw_mail_data(raw_lines, charset='utf8'):
-    msg_content = b'\r\n'.join(raw_lines).decode(encoding=charset)
+    # msg_content = b'\r\n'.join(raw_lines).decode(encoding=charset)
+    msg_content = b'\r\n'.join(raw_lines)
+    msg_content = str(msg_content)
     return Parser().parsestr(text=msg_content)
 
 # 将字节数据通过相应的编码转换成字符串类型的数据

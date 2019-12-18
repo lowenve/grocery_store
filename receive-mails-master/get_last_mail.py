@@ -8,12 +8,12 @@ import poplib
 import re
 
 
-def insetpgsql(msg):
+def insetpgsql(msg, subject):
     try:
         # 连接到一个给定的数据库
         conn_pg = psycopg2.connect(database="cnki_003_xinfang_pro", user="postgres", password="fj5722902", host="10.170.128.121", port="5432")
         cur_pg = conn_pg.cursor()
-        sql_pg = "INSERT INTO petition_emaillinklist (msg) VALUES ('{0}');".format(msg)
+        sql_pg = "INSERT INTO petition_emaillinklist (msg, title) VALUES ('{0}', '{1}');".format(msg, subject)
         print(sql_pg)
         cur_pg.execute(sql_pg)
         conn_pg.commit()
@@ -52,12 +52,14 @@ def print_info(msg, indent=0):
     if msg.get('To') != "root@loongtext.com":
         print("非法邮件～")
     else:
+        subject = str()
         if indent == 0:
             for header in ['From', 'To', 'Subject']:
                 value = msg.get(header, '')
                 if value:
                     if header == 'Subject':
                         value = decode_str(value)
+                        subject = decode_str(value)
                     else:
                         hdr, addr = parseaddr(value)
                         name = decode_str(hdr)
@@ -80,7 +82,7 @@ def print_info(msg, indent=0):
                 msg_url = content.split('\n')[0]
                 # msg_url = find_url(content)
                 print("URL:", msg_url)
-                insetpgsql(msg=msg_url)
+                insetpgsql(msg=msg_url, subject=subject)
             else:
                 print('%sAttachment: %s' % ('  ' * indent, content_type))
 

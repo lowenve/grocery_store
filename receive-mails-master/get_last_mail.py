@@ -5,13 +5,14 @@ from datetime import datetime
 import time
 import psycopg2
 import poplib
+import re
 
 
 def insetpgsql(msg):
     # 连接到一个给定的数据库
-    conn_pg = psycopg2.connect(database="cnki_009_govin_pro_ods", user="postgres", password="fj5722902", host="10.170.128.121", port="5432")
+    conn_pg = psycopg2.connect(database="cnki_003_xinfang_pro", user="postgres", password="fj5722902", host="10.170.128.121", port="5432")
     cur_pg = conn_pg.cursor()
-    sql_pg = "INSERT INTO pyitchat VALUES ('{0}');".format(msg)
+    sql_pg = "INSERT INTO petition_emaillinklist (msg) VALUES ('{0}');".format(msg)
     print(sql_pg)
     cur_pg.execute(sql_pg)
     conn_pg.commit()
@@ -19,6 +20,12 @@ def insetpgsql(msg):
     cur_pg.close()
     # 关闭数据库连接
     conn_pg.close()
+
+
+def find_url(string): 
+    # findall() 查找匹配正则表达式的字符串
+    url = re.findall('https?://(?:[-\w.]|(?:%[\da-fA-F]{2}))+', string)
+    return url[0]
 
 
 def guess_charset(msg):
@@ -67,8 +74,10 @@ def print_info(msg, indent=0):
                 if charset:
                     content = content.decode(charset)
                 print('%sText: %s' % ('  ' * indent, content + '...'))
-                print(content)
-                insetpgsql(msg=content)
+                msg_url = content.split('\n')[0]
+                # msg_url = find_url(content)
+                print("URL:", msg_url)
+                insetpgsql(msg=msg_url)
             else:
                 print('%sAttachment: %s' % ('  ' * indent, content_type))
 

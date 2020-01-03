@@ -113,20 +113,23 @@ if __name__ == '__main__':
             # print(mails)
             # 获取最新一封邮件, 注意索引号从1开始:
             index = len(mails)
-            resp, lines, octets = server.retr(index)
-            # lines存储了邮件的原始文本的每一行,
-            # 可以获得整个邮件的原始文本:
-            msg_content = b'\r\n'.join(lines).decode('utf-8')
-            # 稍后解析出邮件:
-            msg = Parser().parsestr(msg_content)
-            print_info(msg)
-            # 可以根据邮件索引号直接从服务器删除邮件:
-            # server.dele(index)
+            for i in range(index-20, index+1):
+                print("邮件的ID = ", i)
+                resp, lines, octets = server.retr(i)
+                # lines存储了邮件的原始文本的每一行,
+                # 可以获得整个邮件的原始文本:
+                msg_content = b'\r\n'.join(lines).decode('utf-8', 'ignore')
+                # 稍后解析出邮件:
+                msg = Parser().parsestr(msg_content)
+                print_info(msg)
+                # 可以根据邮件索引号直接从服务器删除邮件:
+                # server.dele(index)
             # 关闭连接:
             server.quit()
 
             print(datetime.now().strftime("%Y-%m-%d  %H:%M:%S"))
-            time.sleep(60)
-        except Exception:
+            time.sleep(600)
+        except Exception as e:
+            raise(e)
             print("正在长睡～")
             time.sleep(3600)

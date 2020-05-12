@@ -13,14 +13,15 @@ import numpy as np
 fr1 = '/Users/lowenve/Desktop/1.txt'
 fr2 = '/Users/lowenve/Desktop/2.txt'
 
+
 class simhash:
-    def __init__(self,content):
-        self.simhash=self.simhash(content)
+    def __init__(self, content):
+        self.simhash = self.simhash(content)
 
     def __str__(self):
         return str(self.simhash)
 
-    def simhash(self,content):
+    def simhash(self, content):
         # seg = jieba.cut(content)
         # jieba.analyse.set_stop_words('stopword.txt')
         keyWord = jieba.analyse.extract_tags(
@@ -40,8 +41,8 @@ class simhash:
             # print(temp)
             keyList.append(temp)
         list1 = np.sum(np.array(keyList), axis=0)
-        #print(list1)
-        if(keyList==[]): #编码读不出来
+        # print(list1)
+        if(keyList == []):  # 编码读不出来
             return '00'
         simhash = ''
         for i in list1:
@@ -54,10 +55,12 @@ class simhash:
     def similarity(self, other):
         a = float(self.simhash)
         b = float(other.simhash)
-        if a > b : return b / a
-        else: return a / b
+        if a > b:
+            return b / a
+        else:
+            return a / b
 
-    def string_hash(self,source):
+    def string_hash(self, source):
         if source == "":
             return 0
         else:
@@ -70,7 +73,7 @@ class simhash:
             if x == -1:
                 x = -2
             x = bin(x).replace('0b', '').zfill(64)[-64:]
-            #print(source,x)
+            # print(source,x)
 
             return str(x)
 
@@ -85,7 +88,7 @@ class simhash:
         return i
 
 
-def get_line(fr1,fr2):
+def get_line(fr1, fr2):
     punc = './ <>_ - - = ", 。，？！“”：‘’@#￥% … &×（）——+【】{};；● &～| \s:'
     stoplist = {}.fromkeys([line.rstrip() for line in
                            codecs.open(r"/Users/lowenve/Desktop/stopwork.txt", 'r', 'UTF-8')])
@@ -120,7 +123,6 @@ def get_line(fr1,fr2):
         print(line1[:33])
         print(line2[:33])
 
+
 if __name__ == '__main__':
     get_line(fr1, fr2)
-
-

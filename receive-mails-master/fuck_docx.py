@@ -103,11 +103,14 @@ def table_utils(obj):
         # 使用table2list 将table转成列表，然后转成pandas的DateFrame对象
         for rows in range(pd_block.shape[0]):
             # 循环pd_block(DateFrame对象)的行数 -》shape方法得到元祖 为行数和列数
-            if rows == 0: continue
-            if table_text != pd_block.iloc[rows, 0]: continue
+            if rows == 0:
+                continue
+            if table_text != pd_block.iloc[rows, 0]:
+                continue
             # 判断关键字是否等于当前表的 rows行0列，否则跳过
             for cols in range(pd_block.shape[1]):
-                if cols == 0: continue
+                if cols == 0:
+                    continue
                 rs = p.cell(rows, cols).paragraphs[0]
                 # 此时rows和cols肯定为关键字所在的那行数据，用document对象获取paragraphs取0
                 for r in rs.runs:  # paragraphs中有个runs   是个列表
@@ -153,11 +156,14 @@ for block in iter_block_items(obj):
         # 使用table2list 将table转成列表，然后转成pandas的DateFrame对象
         for rows in range(pd_block.shape[0]):
             # 循环pd_block(DateFrame对象)的行数 -》shape方法得到元祖 为行数和列数
-            if rows == 0: continue
-            if table_text != pd_block.iloc[rows, 0]: continue
+            if rows == 0:
+                continue
+            if table_text != pd_block.iloc[rows, 0]:
+                continue
             # 判断关键字是否等于当前表的 rows行0列，否则跳过
             for cols in range(pd_block.shape[1]):
-                if cols == 0: continue
+                if cols == 0:
+                    continue
                 rs = block.cell(rows, cols).paragraphs[0]
                 # 此时rows和cols肯定为关键字所在的那行数据，用document对象获取paragraphs取0
                 for r in rs.runs:  # paragraphs中有个runs   是个列表
@@ -172,5 +178,5 @@ for block in iter_block_items(obj):
                     # 此时要使用paragraphs的add_run方法重写data数据
                     set_run(run, font_size, bold, color, name)
                     run.font.color.rgb = RGBColor(255, 0, 0)
-                    
+
 obj.save('段落与表格标注后的文档.docx')

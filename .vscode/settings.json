@@ -8,5 +8,5 @@
         "vue-html": "html",
         "vue": "html"
     },
-
+    "emmet.triggerExpansionOnTab": true,
 }
